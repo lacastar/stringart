@@ -67,26 +67,26 @@
   
   const data = ref(resource.data)
   const pins = resource.pins
-  const divider = pins / 16
+  const divider = Math.floor(pins / 16)
 
   let counter = ref(0)
 
   // a computed ref
   const current = computed(() => {
-    return counter.value < data.value.length ? data.value[counter.value] : "Kész!(?)"
+    return counter.value < data.value.length ? translate(data.value[counter.value]) : "Kész!(?)"
   })
 
   const icon = computed(() => {
     if (counter.value >= data.value.length) return ""
-    const value = data.value[counter.value]
+    const value = translate(data.value[counter.value])
     
-    switch (value / divider) {
+    switch (Math.floor(value / divider)) {
       case 0:
       case 15:
         return "mdi-arrow-top-left"
       case 1:
       case 2:
-        return "mdi-arrow-top"
+        return "mdi-arrow-up"
       case 3:
       case 4:
         return "mdi-arrow-top-right"
@@ -108,12 +108,26 @@
     
   })
 
+  const translate =(value)=>{
+    const parts = pins / 4
+    const part = Math.floor(value/parts)
+    switch(part){
+      case 2:
+        return 3*pins/4 - (value-pins/4*2)
+      case 3:
+        return (pins-(value-pins/4*3)) % 148
+      default:
+        return value  
+    }
+  }
+
   const previous = computed(() => {
-    return counter.value == 0 ? "-" : data.value[counter.value - 1]
+    
+    return counter.value == 0 ? "-" : translate(data.value[counter.value - 1])
   })
 
   const next = computed(() => {
-    return counter.value < data.value.length - 1 ? data.value[counter.value + 1] : "-"
+    return counter.value < data.value.length - 1 ? translate(data.value[counter.value + 1]) : "-"
   })
 
   const progress = computed(() => {

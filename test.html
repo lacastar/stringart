@@ -1,26 +1,15 @@
-{
-"pins": 148,
-"data": [0,
-6, 
-15,
-35,
-36,
-37,
-38,
-46,
-52,
-72,
-73,
-74,
-75,
-110,
-111,
-112,
-130,
-146,
-147
-],
-"data2": [0,
+<!DOCTYPE html>
+<html>
+<body>
+<h1>HTML5 Canvas</h1>
+<h2>The lineTo() Method</h2>
+
+<canvas id="myCanvas" width="1113" height="1113" style="border:1px solid grey"></canvas>
+
+<script>
+const c = document.getElementById("myCanvas");
+const ctx = c.getContext("2d");
+const data = [0,
 110,
 113,
 73,
@@ -2577,5 +2566,47 @@
 112,
 3,
 114,
-111]
+111];
+ctx.beginPath();
+ctx.moveTo(0, 0);
+for(let i = 0;i<data.length; i++){
+	const part = Math.floor(data[i]/37)
+    const v = data[i]
+    switch(part){
+      case 0:
+    	ctx.lineTo(v*30, 0);
+        ctx.lineTo(v*30+2, 0);
+        break;
+      case 1:
+      	ctx.lineTo(1110, (v-37)*30);  
+        ctx.lineTo(1110, (v-37)*30+2);  
+        break;
+      case 2:
+      	ctx.lineTo((v-37-37)*30, 1110);  
+        ctx.lineTo((v-37-37)*30+2, 1110);  
+        break;
+      case 3:
+      	ctx.lineTo(0,(v-37-37-37)*30);  
+        ctx.lineTo(0,(v-37-37-37)*30+2);  
+        break;
+    }
+     /*switch(part){
+      case 0:
+    	ctx.lineTo(v*30, 0);  
+        break;
+      case 1:
+      	ctx.lineTo(1110, (v-37)*30);  
+        break;
+      case 2:
+      	ctx.lineTo(1110-(v-37-37)*30, 1110);  
+        break;
+      case 3:
+      	ctx.lineTo(0,1110-(v-37-37-37)*30);  
+        break;
+    }*/
 }
+ctx.stroke();
+</script>
+
+</body>
+</html>
